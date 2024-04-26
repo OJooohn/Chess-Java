@@ -73,6 +73,11 @@ public class Peca extends Main{
     this.setMovimentos(getMovimentos() + 1);
   }
 
+  public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
+
+    return true;
+  }
+
   // Lembrando que o @Override sobrepõe todo o void da classe Peca
 
   // void moverPeca() --> primeiro a ser chamado, dentro dessa função irá chamar as 3 seguintes funções:
@@ -86,10 +91,19 @@ public class Peca extends Main{
   // void verificarColisaoAliado() --> apenas verificar se no caminho da peça existe alguma outra peça no caminho (exceção cavalo)
   // void verificarCaptura() --> apenas verificar se a peça selecionada ao ir para o destino irá matar uma peça inimiga
 
-  public boolean verificarMovimento() {
-    boolean movimentoVerificado = false;
+  public boolean verificarMovimento(List<Peca> pecas, int linha, int coluna) {
 
-    return movimentoVerificado;
+    return true;
+  }
+
+  public boolean verificarColisaoAliado(List<Peca> pecas, int linha, int coluna) {
+    
+    return true;
+  }
+
+  public boolean verificarCaptura(List<Peca> pecas, int linha, int coluna) {
+    
+    return true;
   }
 
 }

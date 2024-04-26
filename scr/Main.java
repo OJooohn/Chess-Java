@@ -280,9 +280,7 @@ public class Main {
                     pressToContinue(input);
                   } else {
 
-                    pecas.get(indicePeca).verificarMovimento();
-                    
-                    destinoVerificado = true;
+                    destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
 
                     if (!destinoVerificado) {
                       System.out.println(GREEN + "--------------------------------------------------------------");
@@ -291,7 +289,7 @@ public class Main {
                       break;
                     }
 
-                    rodada++;
+                    //rodada++;
 
                   }
   

@@ -40,7 +40,7 @@ public class Main {
   public static final String BLACK_BACKGROUND = "\033[40m"; // BLACK
   public static final String WHITE_BACKGROUND = "\033[47m"; // WHITE
 
-  public static void printBackground(int i, int j) {
+  public static void backgroundColor(int i, int j) {
     if (i % 2 == 0) {
         if (j % 2 == 0)
             System.out.print(WHITE_BACKGROUND);
@@ -94,7 +94,7 @@ public class Main {
         System.out.print(GREEN + "[ " + letra + " ]\t" + RESET);
 
         for (i = 0; i < 8; i++) {
-            printBackground(i, j);
+            backgroundColor(i, j);
             boolean encontrado = false;
 
             for (Peca p : pecas) {
@@ -136,11 +136,9 @@ public class Main {
   
       boolean menu = true;
       int i, rodada = 0, corPeca;
+      int indicePeca = 0;
   
       // PEÇAS BRANCAS
-      for (i = 0; i < 8; i++) {
-        pecas.add(new Peao(6, i, '♙', false, true));
-      }
       pecas.add(new Rei(7, 4, '♔', false, true));
       pecas.add(new Torre(7, 0, '♖', false, true));
       pecas.add(new Torre(7, 7, '♖', false, true));
@@ -149,12 +147,12 @@ public class Main {
       pecas.add(new Bispo(7, 2, '♗', false, true));
       pecas.add(new Bispo(7, 5, '♗', false, true));
       pecas.add(new Rainha(7, 3, '♕', false, true));
-  
-      // PEÇAS PRETAS
       for (i = 0; i < 8; i++) {
-        pecas.add(new Peao(1, i, '♟', true, false));
+        pecas.add(new Peao(6, i, '♙', false, true));
       }
-      pecas.add(new Rei(0, 4, '♔', true, false));
+      
+      // PEÇAS PRETAS
+      pecas.add(new Rei(0, 4, '♚', true, false));
       pecas.add(new Torre(0, 0, '♜', true, false));
       pecas.add(new Torre(0, 7, '♜', true, false));
       pecas.add(new Cavalo(0, 1, '♞', true, false));
@@ -162,15 +160,156 @@ public class Main {
       pecas.add(new Bispo(0, 2, '♝', true, false));
       pecas.add(new Bispo(0, 5, '♝', true, false));
       pecas.add(new Rainha(0, 3, '♛', true, false));
-  
-      do {
-  
-        corPeca = rodada % 2;
-        
-        imprimirTabuleiro(pecas);
-        pressToContinue(input);
+      for (i = 0; i < 8; i++) {
+        pecas.add(new Peao(1, i, '♟', true, false));
+      }
 
-        rodada++;
+      String pecaSelecionada, pecaDestino;
+      int linhaSelecionada, colunaSelecionada;
+      int linhaDestino, colunaDestino;
+
+      boolean whiteKingAlive, blackKingAlive;
+      boolean isWhite, isBlack;
+      boolean destinoVerificado;
+
+      char iconePeca = ' ';
+
+      do {
+
+        imprimirTabuleiro(pecas);
+
+        // VERIFICAR SE OS REIS ESTÃO VIVOS
+        whiteKingAlive = false;
+        blackKingAlive = false;
+
+        for (Peca piece : pecas) {
+          if(piece.getIcone() == '♔')
+            whiteKingAlive = true;
+          if(piece.getIcone() == '♚')
+            blackKingAlive = true;
+        }
+
+        if (!whiteKingAlive) {
+          System.out.println(GREEN + "- PEÇAS PRETAS VENCERAM!                                     -");
+          System.out.println(GREEN + "--------------------------------------------------------------");
+          menu = false;
+          break;
+        }
+
+        if (!blackKingAlive) {
+          System.out.println(GREEN + "- PEÇAS BRANCAS VENCERAM!                                    -");
+          System.out.println(GREEN + "--------------------------------------------------------------");
+          menu = false;
+          break;
+        }
+
+        isWhite = false;
+        isBlack = false;
+        destinoVerificado = false;
+
+        corPeca = rodada % 2;
+
+        System.out.println(GREEN + "- DIGITE " + BLUE + "\"SAIR\" " + GREEN + "PARA FINALIZAR O PROGRAMA                    -");
+        System.out.println(GREEN + "- " + BLUE + "COORDENADAS ENTRE A1 e H8" + GREEN + "                                  -");
+        System.out.print(GREEN + "- SELECIONE AS COORDENAS DA PEÇA DESEJADA: ");
+        pecaSelecionada = input.nextLine();
+
+        if (pecaSelecionada.equalsIgnoreCase("SAIR")) {
+          System.out.println(GREEN + "--------------------------------------------------------------");
+          System.out.println(GREEN + "- JOGO FINALIZADO SEM VENCEDORES                             -");
+          System.out.println(GREEN + "--------------------------------------------------------------");
+          menu = false;
+          break;
+        }
+        
+        if (pecaSelecionada.length() != 2 || !Character.isLetter(pecaSelecionada.charAt(0)) || !Character.isDigit(pecaSelecionada.charAt(1))) {
+          System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
+          pressToContinue(input);
+        } else {
+
+          // pecaSelecionada = "A1" --> linha = 0 | coluna = 0
+          linhaSelecionada = pecaSelecionada.toUpperCase().charAt(0) - 65;
+          colunaSelecionada = pecaSelecionada.charAt(1) - 49;
+        
+          if ((linhaSelecionada < 0 || linhaSelecionada > 7) || (colunaSelecionada < 0 || colunaSelecionada > 7)) {
+            System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8asd'." + GREEN);
+            pressToContinue(input);
+          } else {
+
+            if (corPeca == 0) {
+
+              for (i = 0; i < pecas.size(); i++) {
+                  Peca piece = pecas.get(i);
+
+                  if (piece.getPosX() == linhaSelecionada && piece.getPosY() == colunaSelecionada && piece.getIsWhite()) {
+                    indicePeca = i;
+                    iconePeca = piece.getIcone();
+                    isWhite = piece.getIsWhite();
+                    break;
+                  }
+
+              }
+
+              if (!isWhite) {
+                System.out.println(GREEN + "- " + RED + "Você selecionou uma peça preta! Selecione uma peça BRANCA!" + GREEN + " -");
+                pressToContinue(input);
+              }
+
+              if (isWhite) {
+
+                do {
+
+                  imprimirTabuleiro(pecas);
+                  System.out.println(GREEN + "- PECA SELECIONADA: " + iconePeca + "                                        -");
+                  
+                  System.out.println(GREEN + "--------------------------------------------------------------");
+                  System.out.println(GREEN + "- DIGITE " + BLUE + "\"VOLTAR\" " + GREEN + "PARA SELECIONAR OUTRA PEÇA:                -");
+                  System.out.println(GREEN + "- " + BLUE + "COORDENADAS ENTRE A1 e H8" + GREEN + "                                  -");
+                  System.out.print(GREEN + "- SELECIONE A COORDENADA DE DESTINO: ");
+                  pecaDestino = input.nextLine();
+                  
+                  if (pecaDestino.equalsIgnoreCase("VOLTAR")) {
+                    break;
+                  }
+  
+                  linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
+                  colunaDestino = pecaDestino.charAt(1) - 49;
+  
+                  if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+                    System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
+                    pressToContinue(input);
+                  } else {
+
+                    pecas.get(indicePeca).verificarMovimento();
+                    
+                    destinoVerificado = true;
+
+                    if (!destinoVerificado) {
+                      System.out.println(GREEN + "--------------------------------------------------------------");
+                      System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                      pressToContinue(input);
+                      break;
+                    }
+
+                    rodada++;
+
+                  }
+  
+                } while (!destinoVerificado);
+
+              }
+  
+  
+            } else {
+  
+            }
+  
+            //rodada++;
+
+          }
+          
+        }
+
   
       } while (menu);
     }

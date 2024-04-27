@@ -93,17 +93,17 @@ public class Peca extends Main{
 
   public boolean verificarMovimento(List<Peca> pecas, int linha, int coluna) {
 
-    return true;
+    return false;
   }
 
   public boolean verificarColisaoAliado(List<Peca> pecas, int linha, int coluna) {
     
-    return true;
+    return false;
   }
 
   public boolean verificarCaptura(List<Peca> pecas, int linha, int coluna) {
     
-    return true;
+    return false;
   }
 
 }

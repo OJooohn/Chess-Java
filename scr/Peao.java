@@ -185,7 +185,6 @@ public class Peao extends Peca{
 
       for (Peca piece : pecas) {
         if (piece.getIsBlack() && (piece.getPosY() == coluna && piece.getPosX() == linha)) {
-          System.out.println("Peca = " + piece.getIcone() + " | X = " + piece.getPosX() + " | Y = " + piece.getPosY());
           return false;
         }
       }

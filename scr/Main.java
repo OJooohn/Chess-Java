@@ -2,22 +2,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.plaf.ColorUIResource;
+
 // CONFIGURAR ANTES DE INICIAR O PROGRAMA!
 
   // IntelliJ Terminal colors
+  // Está em ordem nas configurações
   // Theme: Dark Theme Default
+
+  // Black: B16E41 both
+  // Bright Red: FFD599 both
+  // Cyan: B16E41 both
+  // Green: FFFFFF both
+  // Magenta: 3EBA67
+  // White (gray): FFD599 both
+
   // Console Background: 000000
   // Error: FF0019
   // Standart output: 000000
   // System output: FFFFFF
   // User input: 00FF24
-
-  // Está em ordem nas configurações
-  // Black: B16E41 both
-  // Bright Red: FFD599 both
-  // Cyan: B16E41 both
-  // Green: FFFFFF both
-  // White (gray): FFD599 both
 
   // PEÇAS BRANCAS: ♔ ♙ ♖ ♘ ♗ ♕
   // PEÇAS PRETAS:  ♚ ♟ ♜ ♞ ♝ ♛
@@ -39,6 +43,7 @@ public class Main {
   // Background
   public static final String BLACK_BACKGROUND = "\033[40m"; // BLACK
   public static final String WHITE_BACKGROUND = "\033[47m"; // WHITE
+  public static final String PURPLE_BACKGROUND = "\033[45m"; // PURPLE
 
   public static void backgroundColor(int i, int j) {
     if (i % 2 == 0) {
@@ -62,7 +67,7 @@ public class Main {
     input.nextLine();
   }
 
-  public static void imprimirTabuleiro(List<Peca> pecas) {
+  public static void imprimirTabuleiro(List<Peca> pecas, int linha, int coluna) {
     // BRANCAS: ♔ ♙ ♖ ♘ ♗ ♕
     // PRETAS: ♚ ♟ ♜ ♞ ♝ ♛
     int i;
@@ -99,11 +104,17 @@ public class Main {
 
             for (Peca p : pecas) {
 
-                if (p.getPosX() == j && p.getPosY() == i) {
+              if (p.getPosX() == j && p.getPosY() == i) {
+                  if (j == linha && i == coluna){
+                    System.out.print(PURPLE_BACKGROUND + "[ " + p.getIcone() + " ]" + RESET);
+                    encontrado = true;
+                  } else {
                     System.out.print("[ " + p.getIcone() + " ]" + RESET);
                     encontrado = true;
-                    break;
-                }
+                  }
+                  
+                  break;
+              }
 
             }
 
@@ -239,7 +250,7 @@ public class Main {
 
         corPeca = rodada % 2;
         
-        imprimirTabuleiro(pecas);
+        imprimirTabuleiro(pecas, -1, -1);
         if (corPeca == 0) {
           System.out.println(GREEN + "- RODADA DAS PEÇAS " + RED_BRIGHT + "BRANCAS" + GREEN + "                                   -");
         } else {
@@ -324,7 +335,7 @@ public class Main {
 
                 do {
 
-                  imprimirTabuleiro(pecas);
+                  imprimirTabuleiro(pecas, linhaSelecionada, colunaSelecionada);
                   System.out.println(GREEN + "- PECA SELECIONADA: " + iconePeca + "                                        -");
                   
                   System.out.println(GREEN + "--------------------------------------------------------------");
@@ -336,50 +347,51 @@ public class Main {
                   if (pecaDestino.equalsIgnoreCase("VOLTAR")) {
                     break;
                   }
-  
-                  linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
-                  colunaDestino = pecaDestino.charAt(1) - 49;
-  
-                  if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+
+                  if (pecaDestino.length() != 2 || !Character.isLetter(pecaDestino.charAt(0)) || !Character.isDigit(pecaDestino.charAt(1))) {
                     System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
                     pressToContinue(input);
                   } else {
-
-                    destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
-
-                    if (!destinoVerificado) {
-                      System.out.println(GREEN + "--------------------------------------------------------------");
-                      System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                    linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
+                    colunaDestino = pecaDestino.charAt(1) - 49;
+    
+                    if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+                      System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
                       pressToContinue(input);
-                      break;
-                    }
-                    
-                    // Atualizar a posição da peça caso tenha capturado um inimigo
-                    for (i = 0; i < pecas.size(); i++) {
-                      Peca piece = pecas.get(i);
-
-                      if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsWhite()) {
-                        indicePeca = i;
+                    } else {
+  
+                      destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
+  
+                      if (!destinoVerificado) {
+                        System.out.println(GREEN + "--------------------------------------------------------------");
+                        System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                        pressToContinue(input);
                         break;
                       }
+                      
+                      // Atualizar a posição da peça caso tenha capturado um inimigo
+                      for (i = 0; i < pecas.size(); i++) {
+                        Peca piece = pecas.get(i);
+  
+                        if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsWhite()) {
+                          indicePeca = i;
+                          break;
+                        }
+                      }
+  
+                      if (pecas.get(indicePeca).getIcone() == '♙') {
+                        if (pecas.get(indicePeca).getIsWhite() && linhaDestino == 0) {
+                          substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, true);
+                        } 
+                      }
+  
+                      pecas.get(indicePeca).aumentarMovimento();
+                      rodada++;
+  
                     }
-
-                    if (pecas.get(indicePeca).getIcone() == '♙') {
-                      if (pecas.get(indicePeca).getIsWhite() && linhaDestino == 0) {
-                        substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, true);
-                      } 
-                    }
-
-                    pecas.get(indicePeca).aumentarMovimento();
-                    rodada++;
-
                   }
-  
                 } while (!destinoVerificado);
-
               }
-  
-  
             } else {
               
               for (i = 0; i < pecas.size(); i++) {
@@ -403,7 +415,7 @@ public class Main {
 
                 do {
 
-                  imprimirTabuleiro(pecas);
+                  imprimirTabuleiro(pecas, linhaSelecionada, colunaSelecionada);
                   System.out.println(GREEN + "- PECA SELECIONADA: " + iconePeca + "                                        -");
                   
                   System.out.println(GREEN + "--------------------------------------------------------------");
@@ -415,56 +427,53 @@ public class Main {
                   if (pecaDestino.equalsIgnoreCase("VOLTAR")) {
                     break;
                   }
-  
-                  linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
-                  colunaDestino = pecaDestino.charAt(1) - 49;
-  
-                  if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+
+                  if (pecaDestino.length() != 2 || !Character.isLetter(pecaDestino.charAt(0)) || !Character.isDigit(pecaDestino.charAt(1))) {
                     System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
                     pressToContinue(input);
                   } else {
-
-                    destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
-
-                    if (!destinoVerificado) {
-                      System.out.println(GREEN + "--------------------------------------------------------------");
-                      System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                    linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
+                    colunaDestino = pecaDestino.charAt(1) - 49;
+    
+                    if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+                      System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
                       pressToContinue(input);
-                      break;
-                    }
-
-                    // Atualizar a posição da peça caso tenha capturado um inimigo
-                    for (i = 0; i < pecas.size(); i++) {
-                      Peca piece = pecas.get(i);
-
-                      if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsBlack()) {
-                        indicePeca = i;
+                    } else {
+  
+                      destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
+  
+                      if (!destinoVerificado) {
+                        System.out.println(GREEN + "--------------------------------------------------------------");
+                        System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                        pressToContinue(input);
                         break;
                       }
-                    }
-
-                    if (pecas.get(indicePeca).getIcone() == '♟') {
-                      if (pecas.get(indicePeca).getIsBlack() && linhaDestino == 7) {
-                        substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, false);
-                      } 
-                    }
-
-                    pecas.get(indicePeca).aumentarMovimento();
-                    rodada++;
-
-                  }
-
-                } while (!destinoVerificado);
-
-              }
-              
-            }
-
-          }
-          
-        }
-
   
+                      // Atualizar a posição da peça caso tenha capturado um inimigo
+                      for (i = 0; i < pecas.size(); i++) {
+                        Peca piece = pecas.get(i);
+  
+                        if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsBlack()) {
+                          indicePeca = i;
+                          break;
+                        }
+                      }
+  
+                      if (pecas.get(indicePeca).getIcone() == '♟') {
+                        if (pecas.get(indicePeca).getIsBlack() && linhaDestino == 7) {
+                          substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, false);
+                        } 
+                      }
+  
+                      pecas.get(indicePeca).aumentarMovimento();
+                      rodada++;
+                    }
+                  }
+                } while (!destinoVerificado);
+              }
+            }
+          }
+        }
       } while (!pecaSelecionada.equalsIgnoreCase("SAIR"));
     }
   }

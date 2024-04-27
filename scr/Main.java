@@ -175,8 +175,15 @@ public class Main {
       char iconePeca = ' ';
 
       do {
+        corPeca = rodada % 2;
 
         imprimirTabuleiro(pecas);
+        if (corPeca == 0) {
+          System.out.println(GREEN + "- RODADA DAS PEÇAS " + RED_BRIGHT + "BRANCAS" + GREEN + "                                   -");
+        } else {
+          System.out.println(GREEN + "- RODADA DAS PEÇAS " + CYAN + "PRETAS" + GREEN + "                                   -");
+        }
+        System.out.println(GREEN + "--------------------------------------------------------------");
 
         // VERIFICAR SE OS REIS ESTÃO VIVOS
         whiteKingAlive = false;
@@ -207,7 +214,7 @@ public class Main {
         isBlack = false;
         destinoVerificado = false;
 
-        corPeca = rodada % 2;
+        
 
         System.out.println(GREEN + "- DIGITE " + BLUE + "\"SAIR\" " + GREEN + "PARA FINALIZAR O PROGRAMA                    -");
         System.out.println(GREEN + "- " + BLUE + "COORDENADAS ENTRE A1 e H8" + GREEN + "                                  -");
@@ -289,7 +296,7 @@ public class Main {
                       break;
                     }
 
-                    //rodada++;
+                    rodada++;
 
                   }
   
@@ -299,7 +306,66 @@ public class Main {
   
   
             } else {
+              
+              for (i = 0; i < pecas.size(); i++) {
+                Peca piece = pecas.get(i);
+
+                if (piece.getPosX() == linhaSelecionada && piece.getPosY() == colunaSelecionada && piece.getIsBlack()) {
+                  indicePeca = i;
+                  iconePeca = piece.getIcone();
+                  isBlack = piece.getIsBlack();
+                  break;
+                }
+
+              }
+
+              if (!isBlack) {
+                System.out.println(GREEN + "- " + RED + "Você selecionou uma peça branca! Selecione uma peça PRETA!" + GREEN + " -");
+                pressToContinue(input);
+              }
+
+              if (isBlack) {
+
+                do {
+
+                  imprimirTabuleiro(pecas);
+                  System.out.println(GREEN + "- PECA SELECIONADA: " + iconePeca + "                                        -");
+                  
+                  System.out.println(GREEN + "--------------------------------------------------------------");
+                  System.out.println(GREEN + "- DIGITE " + BLUE + "\"VOLTAR\" " + GREEN + "PARA SELECIONAR OUTRA PEÇA:                -");
+                  System.out.println(GREEN + "- " + BLUE + "COORDENADAS ENTRE A1 e H8" + GREEN + "                                  -");
+                  System.out.print(GREEN + "- SELECIONE A COORDENADA DE DESTINO: ");
+                  pecaDestino = input.nextLine();
+                  
+                  if (pecaDestino.equalsIgnoreCase("VOLTAR")) {
+                    break;
+                  }
   
+                  linhaDestino = pecaDestino.toUpperCase().charAt(0) - 65;
+                  colunaDestino = pecaDestino.charAt(1) - 49;
+  
+                  if ((linhaDestino < 0 || linhaDestino > 7) || (colunaDestino < 0 || colunaDestino > 7)) {
+                    System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8'." + GREEN);
+                    pressToContinue(input);
+                  } else {
+
+                    destinoVerificado = pecas.get(indicePeca).moverPeca(pecas, linhaDestino, colunaDestino);
+
+                    if (!destinoVerificado) {
+                      System.out.println(GREEN + "--------------------------------------------------------------");
+                      System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
+                      pressToContinue(input);
+                      break;
+                    }
+
+                    rodada++;
+
+                  }
+
+                } while (!destinoVerificado);
+
+              }
+              
             }
   
             //rodada++;

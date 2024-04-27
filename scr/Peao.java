@@ -14,7 +14,6 @@ public class Peao extends Peca{
     
     if (movimentoVerificado) {
       verificarNaoColisaoAliado = verificarColisaoAliado(pecas, linha, coluna);
-      System.out.println("Nao colisao: " + verificarNaoColisaoAliado);
     } else {
       return false;
     }
@@ -28,8 +27,6 @@ public class Peao extends Peca{
       setPosY(coluna);
       return true;
     } else {
-      System.out.println("teste");
-      System.out.println("Captura: " + verificarCaptura(pecas, linha, coluna));
       return false;
     }
 

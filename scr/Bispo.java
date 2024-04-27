@@ -10,9 +10,7 @@ public class Bispo extends Peca{
   public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
 
     boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
-    boolean verificarNaoColisaoAliado;
 
-    System.out.println("bispaiada do capeta");
 
     if (movimentoVerificado) {
       verificarCaptura(pecas, linha, coluna);
@@ -45,134 +43,108 @@ public class Bispo extends Peca{
       Ynegativo = true;
     }
 
-    //System.out.println("deltaX = " + deltaX + " | deltaY = " + deltaY);
-    //System.out.println("getposX() = " + getPosX() + " | getposY() = " + getPosY());
-
     if (deltaX == deltaY) {
       
       if (!Xnegativo && !Ynegativo) {
-        for (i = getPosX() - 1; i >= linha; i--) {
-          for (j = getPosY() - 1; j >= coluna; j--) {
-            System.out.println("i(X) = " + i + " | j(Y) = " + j);
-            //System.out.println("Peca = " + pecas.get(i).getIcone() + " X = " + pecas.get(i).getPosX() + " | Y = " + pecas.get(i).getPosY());
-            for (Peca pieces : pecas) {
-              if (getIsWhite()) {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
-                  System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
+        i = getPosX() - 1;
+        j = getPosY() - 1;
+        do {
+          for (Peca pieces : pecas) {
+            if (getIsWhite()) {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
+                return false;
               } else {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
-                  //System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
+                verificado = true;
+              }
+            } else {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
+                return false;
+              } else {
+                verificado = true;
               }
             }
           }
-        }
+          i--;
+          j--;
+        } while (i >= linha && j >= coluna);
+        
       } else if (Xnegativo && Ynegativo) {
-        for (i = getPosX() + 1; i <= linha; i++) {
-          for (j = getPosY() + 1; j <= coluna; j++) {
-            System.out.println("i(X) = " + i + " | j(Y) = " + j);
-            //System.out.println("Peca = " + pecas.get(i).getIcone() + " X = " + pecas.get(i).getPosX() + " | Y = " + pecas.get(i).getPosY());
-            for (Peca pieces : pecas) {
-              if (getIsWhite()) {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
-                  System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
-              } else {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
-                  //System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
-              }
-            }
-          }
-        }
-      } else if (Xnegativo && !Ynegativo) {
-        for (i = getPosX() + 1; i <= linha; i++) {
-          for (j = getPosY() - 1; j >= coluna; j--) {
-            System.out.println("i(X) = " + i + " | j(Y) = " + j);
-            //System.out.println("Peca = " + pecas.get(i).getIcone() + " X = " + pecas.get(i).getPosX() + " | Y = " + pecas.get(i).getPosY());
-            for (Peca pieces : pecas) {
-              if (getIsWhite()) {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
-                  System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
-              } else {
-                if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
-                  //System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                  return false;
-                } else {
-                  verificado = true;
-                }
-              }
-            }
-          }
-        }
-      } else if (!Xnegativo && Ynegativo) {
-          for (i = getPosX() - 1; i >= linha; i--) {
-            for (j = getPosY() + 1; j <= coluna; j++) {
-            System.out.println("i(X) = " + i + " | j(Y) = " + j);
-                for (Peca pieces : pecas) {
-                  if (getIsWhite()) {
-                    if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
-                      System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                      return false;
-                    } else {
-                      verificado = true;
-                    }
-                  } else {
-                    if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
-                      System.out.println("Peca = " + pieces.getIcone() + " X = " + pieces.getPosX() + " | Y = " + pieces.getPosY());
-                      return false;
-                    } else {
-                      verificado = true;
-                    }
-                  }
-                }
-            }
-          }
-        }
-    }
 
-    if(!verificado) {
-      if(getIsWhite()) {
-        for (Peca piece : pecas) {
-          if (piece.getPosX() == i && piece.getPosY() == j && piece.getIsWhite()) {
-            return false;
-          } else {
-            verificado = true;
+        i = getPosX() + 1;
+        j = getPosY() + 1;
+
+        do {
+          for (Peca pieces : pecas) {
+            if (getIsWhite()) {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            } else {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            }
           }
-        }
-      } else {
-        for (Peca piece : pecas) {
-          if (piece.getPosX() == i && piece.getPosY() == j && piece.getIsBlack()) {
-            return false;
-          } else {
-            verificado = true;
+          i++;
+          j++;
+        } while (i <= linha && j <= coluna);
+        
+      } else if (Xnegativo && !Ynegativo) {
+
+        i = getPosX() + 1;
+        j = getPosY() - 1;
+
+        do {
+          for (Peca pieces : pecas) {
+            if (getIsWhite()) {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            } else {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            }
           }
-        }
+          i++;
+          j--;
+        } while (i <= linha && j >= coluna);
+        
+      } else if (!Xnegativo && Ynegativo) {
+        i = getPosX() - 1;
+        j = getPosY() + 1;
+
+        do {
+          for (Peca pieces : pecas) {
+            if (getIsWhite()) {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsWhite()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            } else {
+              if (pieces.getPosX() == i && pieces.getPosY() == j && pieces.getIsBlack()) {
+                return false;
+              } else {
+                verificado = true;
+              }
+            }
+          }
+          i--;
+          j++;
+        } while (i <= linha && j <= coluna);
       }
-      
-      System.out.println("i = " + i + " | linha = " + linha + " | j = " + j + " | coluna = " + coluna);
-      if (i == linha && j == coluna) {
-        return true;
-      }
-    } else {
-      return true;
+
+      return verificado;
+
     }
 
     return false;

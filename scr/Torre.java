@@ -43,7 +43,8 @@ public class Torre extends Peca{
         if (getPosY() - coluna < 0) {
           for (i = getPosY() + 1; i < coluna; i++) {
             for (Peca piece : pecas) {
-              if (getPosY() == i && piece.getPosX() == getPosX()) {
+              if (piece.getPosY() == i && piece.getPosX() == getPosX()) {
+                System.out.println("Peca 1 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -52,7 +53,8 @@ public class Torre extends Peca{
         } else {
           for (i = getPosY() - 1; i > coluna; i--) {
             for (Peca piece : pecas) {
-              if (getPosY() == i && piece.getPosX() == getPosX()) {
+              if (piece.getPosY() == i && piece.getPosX() == getPosX()) {
+                System.out.println("Peca 2 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -63,7 +65,8 @@ public class Torre extends Peca{
         if (getPosX() - linha < 0) {
           for (i = getPosX() + 1; i < linha; i++) {
             for (Peca piece : pecas) {
-              if(getPosX() == i && piece.getPosY() == getPosY()) {
+              if(piece.getPosX() == i && piece.getPosY() == getPosY()) {
+                System.out.println("Peca 3 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -72,7 +75,8 @@ public class Torre extends Peca{
         } else {
           for (i = getPosX() - 1; i > linha; i--) {
             for (Peca piece : pecas) {
-              if (getPosX() == i && piece.getPosY() == getPosY()) {
+              if (piece.getPosX() == i && piece.getPosY() == getPosY()) {
+                System.out.println("Peca 4 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }

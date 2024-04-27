@@ -134,7 +134,6 @@ public class Main {
 
       List<Peca> pecas = new ArrayList<>();
   
-      boolean menu = true;
       int i, rodada = 0, corPeca;
       int indicePeca = 0;
   
@@ -199,14 +198,12 @@ public class Main {
         if (!whiteKingAlive) {
           System.out.println(GREEN + "- PEÇAS PRETAS VENCERAM!                                     -");
           System.out.println(GREEN + "--------------------------------------------------------------");
-          menu = false;
           break;
         }
 
         if (!blackKingAlive) {
           System.out.println(GREEN + "- PEÇAS BRANCAS VENCERAM!                                    -");
           System.out.println(GREEN + "--------------------------------------------------------------");
-          menu = false;
           break;
         }
 
@@ -225,7 +222,6 @@ public class Main {
           System.out.println(GREEN + "--------------------------------------------------------------");
           System.out.println(GREEN + "- JOGO FINALIZADO SEM VENCEDORES                             -");
           System.out.println(GREEN + "--------------------------------------------------------------");
-          menu = false;
           break;
         }
         
@@ -300,6 +296,7 @@ public class Main {
                       break;
                     }
 
+                    pecas.get(indicePeca).aumentarMovimento();
                     rodada++;
 
                   }
@@ -362,6 +359,7 @@ public class Main {
                       break;
                     }
 
+                    pecas.get(indicePeca).aumentarMovimento();
                     rodada++;
 
                   }
@@ -371,15 +369,13 @@ public class Main {
               }
               
             }
-  
-            //rodada++;
 
           }
           
         }
 
   
-      } while (menu);
+      } while (!pecaSelecionada.equalsIgnoreCase("SAIR"));
     }
   }
 }

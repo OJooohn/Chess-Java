@@ -11,7 +11,6 @@ public class Bispo extends Peca{
 
     boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
 
-
     if (movimentoVerificado) {
       verificarCaptura(pecas, linha, coluna);
       setPosX(linha);

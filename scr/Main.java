@@ -237,6 +237,7 @@ public class Main {
           // pecaSelecionada = "A1" --> linha = 0 | coluna = 0
           linhaSelecionada = pecaSelecionada.toUpperCase().charAt(0) - 65;
           colunaSelecionada = pecaSelecionada.charAt(1) - 49;
+
         
           if ((linhaSelecionada < 0 || linhaSelecionada > 7) || (colunaSelecionada < 0 || colunaSelecionada > 7)) {
             System.out.println(GREEN + "- " + RED + "Input inválido. Insira um input válido entre 'A1' e 'H8asd'." + GREEN);
@@ -263,6 +264,9 @@ public class Main {
               }
 
               if (isWhite) {
+
+                System.out.println("Peca = " + pecas.get(indicePeca).getIcone() + " X = " + pecas.get(indicePeca).getPosX() + " | Y = " + pecas.get(indicePeca).getPosY());
+                System.out.println("Linha Selecionada: " + linhaSelecionada + " | Coluna Selecionada: " + colunaSelecionada);
 
                 do {
 

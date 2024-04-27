@@ -8,7 +8,6 @@ public class Rainha extends Peca{
 
 	@Override
 	public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
-		
 		boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
     boolean verificarNaoColisaoAliado;
     
@@ -19,10 +18,11 @@ public class Rainha extends Peca{
     }
 
     if (verificarNaoColisaoAliado) {
-      verificarCaptura(pecas, linha, coluna);
+			verificarCaptura(pecas, linha, coluna);
     }
-
+		
     if (verificarNaoColisaoAliado) {
+			aumentarMovimento();
       setPosX(linha);
       setPosY(coluna);
       return true;

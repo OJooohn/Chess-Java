@@ -84,8 +84,6 @@ public class Peao extends Peca{
 
       if (getPosX() - linha == 1 && getPosY() == coluna) {
 
-        System.out.println("teste");
-
         // Verificar se tem inimigo na frente do Peão
         for (Peca piece : pecas) {
           if (piece.getIsBlack() && (getPosX() - piece.getPosX() == 1 && piece.getPosY() == getPosY())) {
@@ -124,14 +122,12 @@ public class Peao extends Peca{
       }
 
       if (movimentoDiagonalDireita && movimentoDiagonalEsquerda) {
-        System.out.println("D ambos");
         if ((getPosX() - linha == -1 && getPosY() - coluna == -1) || (getPosX() - linha == -1 && getPosY() - coluna == 1)) {
           return true;
         }
       }
 
       if (movimentoDiagonalDireita) {
-        System.out.println("D Direita");
         if (getPosX() - linha == -1 && getPosY() - coluna == -1) {
           System.out.println("sim");
           return true;
@@ -139,7 +135,6 @@ public class Peao extends Peca{
       }
 
       if (movimentoDiagonalEsquerda) {
-        System.out.println("D Esquerda");
         if (getPosX() - linha == -1 && getPosY() - coluna == 1) {
           return true;
         }

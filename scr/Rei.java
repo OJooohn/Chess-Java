@@ -114,7 +114,6 @@ public class Rei extends Peca{
 						setPosY(2);
 						pecas.get(indiceTorre).setPosY(3);
 					} else {
-						System.out.println("teste 2");
 
 						for (i = getPosY(); i > 0; i--) {
 							for (Peca piece : pecas) {
@@ -146,6 +145,7 @@ public class Rei extends Peca{
 		boolean castling = verificarCastling(pecas, linha, coluna);
 
 		if (castling) {
+			aumentarMovimento();
 			return true;
 		}
 		

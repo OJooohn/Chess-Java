@@ -63,6 +63,17 @@ public class Cavalo extends Peca{
         }
       }
 
+    } else {
+
+      for (i = 0; i < pecas.size(); i++) {
+        Peca piece = pecas.get(i);
+
+        if (piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+          pecas.remove(i);
+          return true;
+        }
+      }
+
     }
 
     return false;

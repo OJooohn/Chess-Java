@@ -44,7 +44,6 @@ public class Torre extends Peca{
           for (i = getPosY() + 1; i < coluna; i++) {
             for (Peca piece : pecas) {
               if (piece.getPosY() == i && piece.getPosX() == getPosX()) {
-                System.out.println("Peca 1 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -54,7 +53,6 @@ public class Torre extends Peca{
           for (i = getPosY() - 1; i > coluna; i--) {
             for (Peca piece : pecas) {
               if (piece.getPosY() == i && piece.getPosX() == getPosX()) {
-                System.out.println("Peca 2 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -66,7 +64,6 @@ public class Torre extends Peca{
           for (i = getPosX() + 1; i < linha; i++) {
             for (Peca piece : pecas) {
               if(piece.getPosX() == i && piece.getPosY() == getPosY()) {
-                System.out.println("Peca 3 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }
@@ -76,7 +73,6 @@ public class Torre extends Peca{
           for (i = getPosX() - 1; i > linha; i--) {
             for (Peca piece : pecas) {
               if (piece.getPosX() == i && piece.getPosY() == getPosY()) {
-                System.out.println("Peca 4 = " + piece.getIcone() + " | X = " + piece.getPosX() + " Y = " + piece.getPosY());
                 colisao = true;
                 break;
               }

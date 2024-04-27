@@ -128,6 +128,68 @@ public class Main {
     System.out.println(GREEN + "--------------------------------------------------------------");
 }
   
+  public static void substituirPeao(Scanner input, List<Peca> pecas, int indicePeca, int linha, int coluna, boolean isWhite) {
+
+    int opcao = -1;
+
+    System.out.println("indicePeca = " + indicePeca);
+
+    pecas.remove(indicePeca);
+
+    while (opcao < 1 || opcao > 4) {
+      System.out.println(GREEN + "--------------------------------------------------------------");
+      System.out.println(GREEN + "- " + BLUE + "PROMOÇÃO DE PEÃO !!! " + GREEN + "                                       -");
+      System.out.println(GREEN + "- [1] TORRE  ♖ | ♜                                         -");        
+      System.out.println(GREEN + "- [2] CAVALO ♘ | ♞                                         -");        
+      System.out.println(GREEN + "- [3] BISPO  ♗ | ♝                                         -");        
+      System.out.println(GREEN + "- [4] RAINHA ♕ | ♛                                         -"); 
+      System.out.print("- SELECIONE A PEÇA: ");
+      opcao = Integer.parseInt(input.nextLine());
+      
+      switch (opcao) {
+        case 1:
+          if (isWhite) {
+            pecas.add(new Torre(linha, coluna, '♖', false, true));
+          } else {
+            pecas.add(new Torre(linha, coluna, '♜', true, false));
+          }
+        break;
+        
+        case 2:
+            if (isWhite) {
+              pecas.add(new Cavalo(linha, coluna, '♘', false, true));
+            } else {
+              pecas.add(new Cavalo(linha, coluna, '♞', true, false));
+            }
+        break; 
+        
+        case 3:
+          if (isWhite) {
+            pecas.add(new Bispo(linha, coluna, '♗', false, true));
+          } else {
+            pecas.add(new Bispo(linha, coluna, '♝', true, false));
+          }
+        break; 
+        
+        case 4:
+          if (isWhite) {
+            pecas.add(new Rainha(linha, coluna, '♕', false, true));
+          } else {
+            pecas.add(new Rainha(linha, coluna, '♛', true, false));
+          }
+        break;
+        
+        default: 
+            System.out.println(GREEN + "--------------------------------------------------------------");
+            System.out.println(GREEN + "- " + RED + "PEÇA SELECIONA INVÁLIDA! " + BLUE + "DIGITE NOVEMENTE...               -");
+            pressToContinue(input);
+        break;
+    }   
+
+
+    }
+
+  }
   public static void main(String[] args) {
     
     try (Scanner input = new Scanner(System.in)) {
@@ -174,8 +236,9 @@ public class Main {
       char iconePeca = ' ';
 
       do {
-        corPeca = rodada % 2;
 
+        corPeca = rodada % 2;
+        
         imprimirTabuleiro(pecas);
         if (corPeca == 0) {
           System.out.println(GREEN + "- RODADA DAS PEÇAS " + RED_BRIGHT + "BRANCAS" + GREEN + "                                   -");
@@ -210,8 +273,6 @@ public class Main {
         isWhite = false;
         isBlack = false;
         destinoVerificado = false;
-
-        
 
         System.out.println(GREEN + "- DIGITE " + BLUE + "\"SAIR\" " + GREEN + "PARA FINALIZAR O PROGRAMA                    -");
         System.out.println(GREEN + "- " + BLUE + "COORDENADAS ENTRE A1 e H8" + GREEN + "                                  -");
@@ -261,9 +322,6 @@ public class Main {
 
               if (isWhite) {
 
-                System.out.println("Peca = " + pecas.get(indicePeca).getIcone() + " X = " + pecas.get(indicePeca).getPosX() + " | Y = " + pecas.get(indicePeca).getPosY());
-                System.out.println("Linha Selecionada: " + linhaSelecionada + " | Coluna Selecionada: " + colunaSelecionada);
-
                 do {
 
                   imprimirTabuleiro(pecas);
@@ -294,6 +352,22 @@ public class Main {
                       System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
                       pressToContinue(input);
                       break;
+                    }
+                    
+                    // Atualizar a posição da peça caso tenha capturado um inimigo
+                    for (i = 0; i < pecas.size(); i++) {
+                      Peca piece = pecas.get(i);
+
+                      if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsWhite()) {
+                        indicePeca = i;
+                        break;
+                      }
+                    }
+
+                    if (pecas.get(indicePeca).getIcone() == '♙') {
+                      if (pecas.get(indicePeca).getIsWhite() && linhaDestino == 0) {
+                        substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, true);
+                      } 
                     }
 
                     pecas.get(indicePeca).aumentarMovimento();
@@ -357,6 +431,22 @@ public class Main {
                       System.out.println(GREEN + "- " + RED + "MOVIMENTO DE PEÇA INVÁLIDO!"+ GREEN + "                                -");
                       pressToContinue(input);
                       break;
+                    }
+
+                    // Atualizar a posição da peça caso tenha capturado um inimigo
+                    for (i = 0; i < pecas.size(); i++) {
+                      Peca piece = pecas.get(i);
+
+                      if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsBlack()) {
+                        indicePeca = i;
+                        break;
+                      }
+                    }
+
+                    if (pecas.get(indicePeca).getIcone() == '♟') {
+                      if (pecas.get(indicePeca).getIsBlack() && linhaDestino == 7) {
+                        substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, false);
+                      } 
                     }
 
                     pecas.get(indicePeca).aumentarMovimento();

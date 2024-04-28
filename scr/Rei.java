@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Rei extends Peca{
+public class Rei extends Peca {
 
 	Rei(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
 		super(posX, posY, icone, isBlack, isWhite);
@@ -14,14 +14,18 @@ public class Rei extends Peca{
 		int Xdireita, Ydireita, Xesquerda, Yesquerda;
 
 		if (getIsWhite()) {
-			Xdireita = 7; Ydireita = 7;
-			Xesquerda = 7; Yesquerda = 0;
+			Xdireita = 7;
+			Ydireita = 7;
+			Xesquerda = 7;
+			Yesquerda = 0;
 		} else {
-			Xdireita = 0; Ydireita = 7;
-			Xesquerda = 0; Yesquerda = 0;
+			Xdireita = 0;
+			Ydireita = 7;
+			Xesquerda = 0;
+			Yesquerda = 0;
 		}
 
-		if ( (linha == Xesquerda && coluna == Yesquerda) || (linha == Xdireita && coluna == Ydireita)) {
+		if ((linha == Xesquerda && coluna == Yesquerda) || (linha == Xdireita && coluna == Ydireita)) {
 			if (getMovimentos() == 0) {
 
 				if (getIsWhite()) {
@@ -33,7 +37,8 @@ public class Rei extends Peca{
 								torreDireita = true;
 								break;
 							}
-							if (piece.getPosX() == linha && piece.getPosY() == coluna && (linha == Xesquerda && coluna == Yesquerda)) {
+							if (piece.getPosX() == linha && piece.getPosY() == coluna
+									&& (linha == Xesquerda && coluna == Yesquerda)) {
 								torreEsquerda = true;
 								break;
 							}
@@ -48,7 +53,8 @@ public class Rei extends Peca{
 								torreDireita = true;
 								break;
 							}
-							if (piece.getPosX() == linha && piece.getPosY() == coluna && (linha == Xesquerda && coluna == Yesquerda)) {
+							if (piece.getPosX() == linha && piece.getPosY() == coluna
+									&& (linha == Xesquerda && coluna == Yesquerda)) {
 								torreEsquerda = true;
 								break;
 							}
@@ -65,10 +71,11 @@ public class Rei extends Peca{
 				if (torreDireita) {
 					if (getIsWhite()) {
 
-						for (i = getPosY(); i < 7; i++){
+						for (i = getPosY(); i < 7; i++) {
 
 							for (Peca piece : pecas) {
-								if (piece.getPosX() == 7 && piece.getPosY() == i && piece.getIcone() != '♖' && piece.getIcone() != '♔') {
+								if (piece.getPosX() == 7 && piece.getPosY() == i && piece.getIcone() != '♖'
+										&& piece.getIcone() != '♔') {
 									return false;
 								}
 							}
@@ -83,9 +90,10 @@ public class Rei extends Peca{
 						for (i = getPosY(); i < 7; i++) {
 							for (Peca piece : pecas) {
 
-									if (piece.getPosX() == 0 && piece.getPosY() == i && piece.getIcone() != '♜' && piece.getIcone() != '♚') {
-											return false;
-									}
+								if (piece.getPosX() == 0 && piece.getPosY() == i && piece.getIcone() != '♜'
+										&& piece.getIcone() != '♚') {
+									return false;
+								}
 
 							}
 						}
@@ -94,7 +102,7 @@ public class Rei extends Peca{
 						pecas.get(indiceTorre).setPosY(5);
 
 					}
-				
+
 					return true;
 
 				}
@@ -105,9 +113,10 @@ public class Rei extends Peca{
 
 						for (i = getPosY(); i > 0; i--) {
 							for (Peca piece : pecas) {
-								if (piece.getPosX() == 7 && piece.getPosY() == i && piece.getIcone() != '♖' && piece.getIcone() != '♔') {
-                  return false;
-                }
+								if (piece.getPosX() == 7 && piece.getPosY() == i && piece.getIcone() != '♖'
+										&& piece.getIcone() != '♔') {
+									return false;
+								}
 							}
 						}
 
@@ -117,7 +126,8 @@ public class Rei extends Peca{
 
 						for (i = getPosY(); i > 0; i--) {
 							for (Peca piece : pecas) {
-								if (piece.getPosX() == 0 && piece.getPosY() == i && piece.getIcone() != '♜' && piece.getIcone() != '♚') {
+								if (piece.getPosX() == 0 && piece.getPosY() == i && piece.getIcone() != '♜'
+										&& piece.getIcone() != '♚') {
 									return false;
 								}
 							}
@@ -141,32 +151,31 @@ public class Rei extends Peca{
 	public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
 
 		boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
-    boolean verificarNaoColisaoAliado = false;
+		boolean verificarNaoColisaoAliado = false;
 		boolean castling = verificarCastling(pecas, linha, coluna);
 
 		if (castling) {
 			aumentarMovimento();
 			return true;
 		}
-		
-    
-    if (movimentoVerificado) {
-      verificarNaoColisaoAliado = verificarColisaoAliado(pecas, linha, coluna);
-    } else {
-      return false;
-    }
 
-    if (verificarNaoColisaoAliado) {
-      verificarCaptura(pecas, linha, coluna);
-    }
+		if (movimentoVerificado) {
+			verificarNaoColisaoAliado = verificarColisaoAliado(pecas, linha, coluna);
+		} else {
+			return false;
+		}
 
-    if (verificarNaoColisaoAliado) {
-      setPosX(linha);
-      setPosY(coluna);
-      return true;
-    } else {
-      return false;
-    }
+		if (verificarNaoColisaoAliado) {
+			verificarCaptura(pecas, linha, coluna);
+		}
+
+		if (verificarNaoColisaoAliado) {
+			setPosX(linha);
+			setPosY(coluna);
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
@@ -190,58 +199,59 @@ public class Rei extends Peca{
 			}
 
 		}
-	
-		return (getPosX() - linha) <= 1 && (getPosX() - linha) >= -1 && (getPosY() - coluna) <= 1 && (getPosY() - coluna) >= -1;
+
+		return (getPosX() - linha) <= 1 && (getPosX() - linha) >= -1 && (getPosY() - coluna) <= 1
+				&& (getPosY() - coluna) >= -1;
 	}
 
 	@Override
 	public boolean verificarColisaoAliado(List<Peca> pecas, int linha, int coluna) {
 		if (getIsWhite()) {
 
-      for (Peca piece : pecas) {
-        if (piece.getIsWhite() && (piece.getPosY() == coluna && piece.getPosX() == linha)) {
-          return false;
-        }
-      }
+			for (Peca piece : pecas) {
+				if (piece.getIsWhite() && (piece.getPosY() == coluna && piece.getPosX() == linha)) {
+					return false;
+				}
+			}
 
-      return true;
+			return true;
 
-    } else {
+		} else {
 
-      for (Peca piece : pecas) {
-        if (piece.getIsBlack() && (piece.getPosY() == coluna && piece.getPosX() == linha)) {
-          return false;
-        }
-      }
+			for (Peca piece : pecas) {
+				if (piece.getIsBlack() && (piece.getPosY() == coluna && piece.getPosX() == linha)) {
+					return false;
+				}
+			}
 
-    }
+		}
 
-    return true;
+		return true;
 	}
 
 	@Override
 	public boolean verificarCaptura(List<Peca> pecas, int linha, int coluna) {
 		int i;
 
-    if (getIsWhite()) {
-        for (i = 0; i < pecas.size(); i++) {
-          Peca piece = pecas.get(i);
-          if(piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna) && piece.getIcone() != '♚') {
-            pecas.remove(i);
-            return true;
-          }
-        }
-    } else {
-      for (i = 0; i < pecas.size(); i++) {
-        Peca piece = pecas.get(i);
-        if(piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna && piece.getIcone() != '♔')) {
-          pecas.remove(i);
-          return true;
-        }
-      }
-    }
+		if (getIsWhite()) {
+			for (i = 0; i < pecas.size(); i++) {
+				Peca piece = pecas.get(i);
+				if (piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna) && piece.getIcone() != '♚') {
+					pecas.remove(i);
+					return true;
+				}
+			}
+		} else {
+			for (i = 0; i < pecas.size(); i++) {
+				Peca piece = pecas.get(i);
+				if (piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna && piece.getIcone() != '♔')) {
+					pecas.remove(i);
+					return true;
+				}
+			}
+		}
 
-    return false;
+		return false;
 	}
-  
+
 }

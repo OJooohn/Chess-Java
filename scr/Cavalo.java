@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class Cavalo extends Peca{
+public class Cavalo extends Peca {
 
-	Cavalo(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
-		super(posX, posY, icone, isBlack, isWhite);
-	}
+  Cavalo(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
+    super(posX, posY, icone, isBlack, isWhite);
+  }
 
   @Override
   public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
@@ -43,7 +43,6 @@ public class Cavalo extends Peca{
 
     }
 
-    
     return false;
   }
 
@@ -78,5 +77,5 @@ public class Cavalo extends Peca{
 
     return false;
   }
-  
+
 }

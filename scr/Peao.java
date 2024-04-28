@@ -1,17 +1,17 @@
 import java.util.List;
 
-public class Peao extends Peca{
+public class Peao extends Peca {
 
-	Peao(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
-		super(posX, posY, icone, isBlack, isWhite);
-	}
+  Peao(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
+    super(posX, posY, icone, isBlack, isWhite);
+  }
 
   @Override
   public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
 
     boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
     boolean verificarNaoColisaoAliado;
-    
+
     if (movimentoVerificado) {
       verificarNaoColisaoAliado = verificarColisaoAliado(pecas, linha, coluna);
     } else {
@@ -37,13 +37,13 @@ public class Peao extends Peca{
     boolean movimentoDiagonalDireita = false;
     boolean movimentoDiagonalEsquerda = false;
     boolean inimigoFrente = false;
-    
-    // SE A PEÇA FOR BRANCA
-    if(getIsWhite()) {
 
-      if(getPosX() == 6 && (getPosX() - linha == 2 && getPosY() == coluna)) {
+    // SE A PEÇA FOR BRANCA
+    if (getIsWhite()) {
+
+      if (getPosX() == 6 && (getPosX() - linha == 2 && getPosY() == coluna)) {
         for (Peca piece : pecas) {
-          if(piece.getPosY() == getPosY() && piece.getPosX() + 1 == getPosX()) {
+          if (piece.getPosY() == getPosY() && piece.getPosX() + 1 == getPosX()) {
             return false;
           }
           if (piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
@@ -65,7 +65,8 @@ public class Peao extends Peca{
       }
 
       if (movimentoDiagonalDireita && movimentoDiagonalEsquerda) {
-        if ((getPosX() - linha == 1 && getPosY() - coluna == -1) || (getPosX() - linha == 1 && getPosY() - coluna == 1)) {
+        if ((getPosX() - linha == 1 && getPosY() - coluna == -1)
+            || (getPosX() - linha == 1 && getPosY() - coluna == 1)) {
           return true;
         }
       }
@@ -90,7 +91,7 @@ public class Peao extends Peca{
             return false;
           }
         }
-  
+
         if (!inimigoFrente) {
           if (getPosY() == coluna && getPosX() - linha == 1) {
             return true;
@@ -102,9 +103,9 @@ public class Peao extends Peca{
 
     } else {
 
-      if(getPosX() == 1 && (getPosX() - linha == -2 && getPosY() == coluna)) {
+      if (getPosX() == 1 && (getPosX() - linha == -2 && getPosY() == coluna)) {
         for (Peca piece : pecas) {
-          if(piece.getPosY() == getPosY() && piece.getPosX() - 1 == getPosX()) {
+          if (piece.getPosY() == getPosY() && piece.getPosX() - 1 == getPosX()) {
             return false;
           }
         }
@@ -122,7 +123,8 @@ public class Peao extends Peca{
       }
 
       if (movimentoDiagonalDireita && movimentoDiagonalEsquerda) {
-        if ((getPosX() - linha == -1 && getPosY() - coluna == -1) || (getPosX() - linha == -1 && getPosY() - coluna == 1)) {
+        if ((getPosX() - linha == -1 && getPosY() - coluna == -1)
+            || (getPosX() - linha == -1 && getPosY() - coluna == 1)) {
           return true;
         }
       }
@@ -148,7 +150,7 @@ public class Peao extends Peca{
             return false;
           }
         }
-  
+
         if (!inimigoFrente) {
           if (getPosY() == coluna && getPosX() - linha == -1) {
             return true;
@@ -195,17 +197,17 @@ public class Peao extends Peca{
     int i;
 
     if (getIsWhite()) {
-        for (i = 0; i < pecas.size(); i++) {
-          Peca piece = pecas.get(i);
-          if(piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
-            pecas.remove(i);
-            return true;
-          }
+      for (i = 0; i < pecas.size(); i++) {
+        Peca piece = pecas.get(i);
+        if (piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+          pecas.remove(i);
+          return true;
         }
+      }
     } else {
       for (i = 0; i < pecas.size(); i++) {
         Peca piece = pecas.get(i);
-        if(piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+        if (piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
           pecas.remove(i);
           return true;
         }
@@ -214,5 +216,5 @@ public class Peao extends Peca{
 
     return false;
   }
-  
+
 }

@@ -1,7 +1,7 @@
 import java.util.List;
 
-public class Peca extends Main{
- 
+public class Peca extends Main {
+
   private int posX;
   private int posY;
   private int movimentos;
@@ -9,7 +9,7 @@ public class Peca extends Main{
   private boolean isBlack;
   private boolean isWhite;
 
-  Peca (int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
+  Peca(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
 
     this.posX = posX;
     this.posY = posY;
@@ -86,12 +86,12 @@ public class Peca extends Main{
   }
 
   public boolean verificarColisaoAliado(List<Peca> pecas, int linha, int coluna) {
-    
+
     return false;
   }
 
   public boolean verificarCaptura(List<Peca> pecas, int linha, int coluna) {
-    
+
     return false;
   }
 

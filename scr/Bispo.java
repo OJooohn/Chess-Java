@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class Bispo extends Peca{
+public class Bispo extends Peca {
 
-	Bispo(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
-		super(posX, posY, icone, isBlack, isWhite);
-	}
+  Bispo(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
+    super(posX, posY, icone, isBlack, isWhite);
+  }
 
   @Override
   public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
@@ -36,14 +36,14 @@ public class Bispo extends Peca{
     if (deltaX < 0) {
       deltaX *= -1;
       Xnegativo = true;
-    } 
+    }
     if (deltaY < 0) {
       deltaY *= -1;
       Ynegativo = true;
     }
 
     if (deltaX == deltaY) {
-      
+
       if (!Xnegativo && !Ynegativo) {
         i = getPosX() - 1;
         j = getPosY() - 1;
@@ -66,7 +66,7 @@ public class Bispo extends Peca{
           i--;
           j--;
         } while (i >= linha && j >= coluna);
-        
+
       } else if (Xnegativo && Ynegativo) {
 
         i = getPosX() + 1;
@@ -91,7 +91,7 @@ public class Bispo extends Peca{
           i++;
           j++;
         } while (i <= linha && j <= coluna);
-        
+
       } else if (Xnegativo && !Ynegativo) {
 
         i = getPosX() + 1;
@@ -116,7 +116,7 @@ public class Bispo extends Peca{
           i++;
           j--;
         } while (i <= linha && j >= coluna);
-        
+
       } else if (!Xnegativo && Ynegativo) {
         i = getPosX() - 1;
         j = getPosY() + 1;
@@ -160,17 +160,17 @@ public class Bispo extends Peca{
     int i;
 
     if (getIsWhite()) {
-        for (i = 0; i < pecas.size(); i++) {
-          Peca piece = pecas.get(i);
-          if(piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
-            pecas.remove(i);
-            return true;
-          }
+      for (i = 0; i < pecas.size(); i++) {
+        Peca piece = pecas.get(i);
+        if (piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+          pecas.remove(i);
+          return true;
         }
+      }
     } else {
       for (i = 0; i < pecas.size(); i++) {
         Peca piece = pecas.get(i);
-        if(piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+        if (piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
           pecas.remove(i);
           return true;
         }
@@ -179,5 +179,5 @@ public class Bispo extends Peca{
 
     return false;
   }
-  
+
 }

@@ -1,14 +1,14 @@
 import java.util.List;
 
-public class Torre extends Peca{
+public class Torre extends Peca {
 
-	Torre(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
-		super(posX, posY, icone, isBlack, isWhite);
-	}
+  Torre(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
+    super(posX, posY, icone, isBlack, isWhite);
+  }
 
   @Override
   public boolean moverPeca(List<Peca> pecas, int linha, int coluna) {
-    
+
     boolean movimentoVerificado = verificarMovimento(pecas, linha, coluna);
     boolean verificarNaoColisaoAliado = false;
 
@@ -39,7 +39,7 @@ public class Torre extends Peca{
 
     if (getPosX() == linha || getPosY() == coluna) {
 
-      if(getPosX() == linha) {
+      if (getPosX() == linha) {
         if (getPosY() - coluna < 0) {
           for (i = getPosY() + 1; i < coluna; i++) {
             for (Peca piece : pecas) {
@@ -63,7 +63,7 @@ public class Torre extends Peca{
         if (getPosX() - linha < 0) {
           for (i = getPosX() + 1; i < linha; i++) {
             for (Peca piece : pecas) {
-              if(piece.getPosX() == i && piece.getPosY() == getPosY()) {
+              if (piece.getPosX() == i && piece.getPosY() == getPosY()) {
                 colisao = true;
                 break;
               }
@@ -85,7 +85,7 @@ public class Torre extends Peca{
     if (!colisao) {
       return true;
     }
-    
+
     return false;
   }
 
@@ -120,17 +120,17 @@ public class Torre extends Peca{
     int i;
 
     if (getIsWhite()) {
-        for (i = 0; i < pecas.size(); i++) {
-          Peca piece = pecas.get(i);
-          if(piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
-            pecas.remove(i);
-            return true;
-          }
+      for (i = 0; i < pecas.size(); i++) {
+        Peca piece = pecas.get(i);
+        if (piece.getIsBlack() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+          pecas.remove(i);
+          return true;
         }
+      }
     } else {
       for (i = 0; i < pecas.size(); i++) {
         Peca piece = pecas.get(i);
-        if(piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
+        if (piece.getIsWhite() && (piece.getPosX() == linha && piece.getPosY() == coluna)) {
           pecas.remove(i);
           return true;
         }
@@ -139,5 +139,5 @@ public class Torre extends Peca{
 
     return false;
   }
-  
+
 }

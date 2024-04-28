@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.plaf.ColorUIResource;
-
 // CONFIGURAR ANTES DE INICIAR O PROGRAMA!
 
 // IntelliJ Terminal colors

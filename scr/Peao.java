@@ -1,9 +1,84 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class Peao extends Peca {
 
   Peao(int posX, int posY, char icone, boolean isBlack, boolean isWhite) {
     super(posX, posY, icone, isBlack, isWhite);
+  }
+
+  public void substituirPeao(List<Peca> pecas, int linha, int coluna) {
+
+    Scanner input = new Scanner(System.in);
+
+    int opcao = -1;
+    int indicePeca = -1;
+
+    for (int i = 0; i < pecas.size(); i++) {
+      Peca peca = pecas.get(i);
+
+      if (peca.getPosX() == getPosX() && peca.getPosY() == getPosY()) {
+        indicePeca = i;
+        break;
+      }
+    }
+
+    while (opcao < 1 || opcao > 4) {
+      System.out.println(GREEN + "--------------------------------------------------------------");
+      System.out
+          .println(GREEN + "- " + BLUE + "PROMOÇÃO DE PEÃO !!! " + GREEN + "                                       -");
+      System.out.println(GREEN + "- [1] TORRE  ♖ | ♜                                         -");
+      System.out.println(GREEN + "- [2] CAVALO ♘ | ♞                                         -");
+      System.out.println(GREEN + "- [3] BISPO  ♗ | ♝                                         -");
+      System.out.println(GREEN + "- [4] RAINHA ♕ | ♛                                         -");
+      System.out.print("- SELECIONE A PEÇA: ");
+      opcao = Integer.parseInt(input.nextLine());
+
+      switch (opcao) {
+        case 1:
+          if (getIsWhite()) {
+            pecas.add(new Torre(linha, coluna, '♖', false, true));
+          } else {
+            pecas.add(new Torre(linha, coluna, '♜', true, false));
+          }
+          break;
+
+        case 2:
+          if (getIsWhite()) {
+            pecas.add(new Cavalo(linha, coluna, '♘', false, true));
+          } else {
+            pecas.add(new Cavalo(linha, coluna, '♞', true, false));
+          }
+          break;
+
+        case 3:
+          if (getIsWhite()) {
+            pecas.add(new Bispo(linha, coluna, '♗', false, true));
+          } else {
+            pecas.add(new Bispo(linha, coluna, '♝', true, false));
+          }
+          break;
+
+        case 4:
+          if (getIsWhite()) {
+            pecas.add(new Rainha(linha, coluna, '♕', false, true));
+          } else {
+            pecas.add(new Rainha(linha, coluna, '♛', true, false));
+          }
+          break;
+
+        default:
+          System.out.println(GREEN + "--------------------------------------------------------------");
+          System.out
+              .println(GREEN + "- " + RED + "PEÇA SELECIONA INVÁLIDA! " + BLUE + "DIGITE NOVEMENTE...               -");
+          pressToContinue(input);
+          break;
+      }
+
+    }
+
+    pecas.remove(indicePeca);
+
   }
 
   @Override
@@ -23,6 +98,13 @@ public class Peao extends Peca {
     }
 
     if (verificarNaoColisaoAliado) {
+
+      if (getIsWhite() && linha == 0) {
+        substituirPeao(pecas, linha, coluna);
+      } else if (getIsBlack() && linha == 7) {
+        substituirPeao(pecas, linha, coluna);
+      }
+
       setPosX(linha);
       setPosY(coluna);
       return true;

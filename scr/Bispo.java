@@ -150,12 +150,6 @@ public class Bispo extends Peca {
   }
 
   @Override
-  public boolean verificarColisaoAliado(List<Peca> pecas, int linha, int coluna) {
-
-    return super.verificarColisaoAliado(pecas, linha, coluna);
-  }
-
-  @Override
   public boolean verificarCaptura(List<Peca> pecas, int linha, int coluna) {
     int i;
 

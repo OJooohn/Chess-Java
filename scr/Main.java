@@ -137,71 +137,6 @@ public class Main {
     System.out.println(GREEN + "--------------------------------------------------------------");
   }
 
-  public static void substituirPeao(Scanner input, List<Peca> pecas, int indicePeca, int linha, int coluna,
-      boolean isWhite) {
-
-    int opcao = -1;
-
-    System.out.println("indicePeca = " + indicePeca);
-
-    pecas.remove(indicePeca);
-
-    while (opcao < 1 || opcao > 4) {
-      System.out.println(GREEN + "--------------------------------------------------------------");
-      System.out
-          .println(GREEN + "- " + BLUE + "PROMOÇÃO DE PEÃO !!! " + GREEN + "                                       -");
-      System.out.println(GREEN + "- [1] TORRE  ♖ | ♜                                         -");
-      System.out.println(GREEN + "- [2] CAVALO ♘ | ♞                                         -");
-      System.out.println(GREEN + "- [3] BISPO  ♗ | ♝                                         -");
-      System.out.println(GREEN + "- [4] RAINHA ♕ | ♛                                         -");
-      System.out.print("- SELECIONE A PEÇA: ");
-      opcao = Integer.parseInt(input.nextLine());
-
-      switch (opcao) {
-        case 1:
-          if (isWhite) {
-            pecas.add(new Torre(linha, coluna, '♖', false, true));
-          } else {
-            pecas.add(new Torre(linha, coluna, '♜', true, false));
-          }
-          break;
-
-        case 2:
-          if (isWhite) {
-            pecas.add(new Cavalo(linha, coluna, '♘', false, true));
-          } else {
-            pecas.add(new Cavalo(linha, coluna, '♞', true, false));
-          }
-          break;
-
-        case 3:
-          if (isWhite) {
-            pecas.add(new Bispo(linha, coluna, '♗', false, true));
-          } else {
-            pecas.add(new Bispo(linha, coluna, '♝', true, false));
-          }
-          break;
-
-        case 4:
-          if (isWhite) {
-            pecas.add(new Rainha(linha, coluna, '♕', false, true));
-          } else {
-            pecas.add(new Rainha(linha, coluna, '♛', true, false));
-          }
-          break;
-
-        default:
-          System.out.println(GREEN + "--------------------------------------------------------------");
-          System.out
-              .println(GREEN + "- " + RED + "PEÇA SELECIONA INVÁLIDA! " + BLUE + "DIGITE NOVEMENTE...               -");
-          pressToContinue(input);
-          break;
-      }
-
-    }
-
-  }
-
   public static void main(String[] args) {
 
     try (Scanner input = new Scanner(System.in)) {
@@ -242,7 +177,7 @@ public class Main {
       int linhaDestino, colunaDestino;
 
       boolean whiteKingAlive, blackKingAlive;
-      boolean isWhite, isBlack;
+      boolean isWhite, isBlack, casaNaoVazia;
       boolean destinoVerificado;
 
       char iconePeca = ' ';
@@ -273,17 +208,22 @@ public class Main {
         }
 
         if (!whiteKingAlive) {
-          System.out.println(GREEN + "- PEÇAS PRETAS VENCERAM!                                     -");
+          imprimirTabuleiro(pecas, -1, -1);
+          System.out.println(
+              GREEN + "- PEÇAS " + CYAN + "PRETAS" + GREEN + " VENCERAM!                                     -");
           System.out.println(GREEN + "--------------------------------------------------------------");
           break;
         }
 
         if (!blackKingAlive) {
-          System.out.println(GREEN + "- PEÇAS BRANCAS VENCERAM!                                    -");
+          imprimirTabuleiro(pecas, -1, -1);
+          System.out.println(
+              GREEN + "- PEÇAS " + RED_BRIGHT + "BRANCAS" + GREEN + " VENCERAM!                                    -");
           System.out.println(GREEN + "--------------------------------------------------------------");
           break;
         }
 
+        casaNaoVazia = false;
         isWhite = false;
         isBlack = false;
         destinoVerificado = false;
@@ -327,14 +267,23 @@ public class Main {
                   indicePeca = i;
                   iconePeca = piece.getIcone();
                   isWhite = piece.getIsWhite();
+                  casaNaoVazia = true;
                   break;
+                } else if (piece.getPosX() == linhaSelecionada && piece.getPosY() == colunaSelecionada && piece.getIsBlack()) {
+                  casaNaoVazia = true;
                 }
 
               }
 
               if (!isWhite) {
-                System.out.println(
-                    GREEN + "- " + RED + "Você selecionou uma peça preta! Selecione uma peça BRANCA!" + GREEN + " -");
+                System.out.println(GREEN + "--------------------------------------------------------------");
+                if (!casaNaoVazia) {
+                  System.out.println(GREEN + "- " + RED + "Você selecionou uma casa VAZIA! Selecione uma peça "
+                          + RED_BRIGHT + "BRANCA" + GREEN + "! -");
+                } else {
+                  System.out.println(
+                      GREEN + "- " + RED + "Você selecionou uma peça " + CYAN + "PRETA" + GREEN +"!" + RED + " Selecione uma peça " + RED_BRIGHT +"BRANCA" + GREEN + "! -");
+                }
                 pressToContinue(input);
               }
 
@@ -393,12 +342,6 @@ public class Main {
                         }
                       }
 
-                      if (pecas.get(indicePeca).getIcone() == '♙') {
-                        if (pecas.get(indicePeca).getIsWhite() && linhaDestino == 0) {
-                          substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, true);
-                        }
-                      }
-
                       pecas.get(indicePeca).aumentarMovimento();
                       rodada++;
 
@@ -416,13 +359,20 @@ public class Main {
                   iconePeca = piece.getIcone();
                   isBlack = piece.getIsBlack();
                   break;
+                } else if (piece.getPosX() == linhaSelecionada && piece.getPosY() == colunaSelecionada && piece.getIsWhite()) {
+                  casaNaoVazia = true;
                 }
 
               }
 
               if (!isBlack) {
-                System.out.println(
-                    GREEN + "- " + RED + "Você selecionou uma peça branca! Selecione uma peça PRETA!" + GREEN + " -");
+                System.out.println(GREEN + "--------------------------------------------------------------");
+
+                if (!casaNaoVazia) {
+                  System.out.println(GREEN + "- " + RED + "Você selecionou uma casa VAZIA! Selecione uma peça " + CYAN + "PRETA" + GREEN + "!  -");
+                } else {
+                  System.out.println(GREEN + "- " + RED + "Você selecionou uma peça " + RED_BRIGHT + "BRANCA" + GREEN + "! " + RED + "Selecione uma peça " + CYAN + "PRETA" + GREEN + "!  -");
+                }
                 pressToContinue(input);
               }
 
@@ -478,12 +428,6 @@ public class Main {
                         if (piece.getPosX() == linhaDestino && piece.getPosY() == colunaDestino && piece.getIsBlack()) {
                           indicePeca = i;
                           break;
-                        }
-                      }
-
-                      if (pecas.get(indicePeca).getIcone() == '♟') {
-                        if (pecas.get(indicePeca).getIsBlack() && linhaDestino == 7) {
-                          substituirPeao(input, pecas, indicePeca, linhaDestino, colunaDestino, false);
                         }
                       }
 

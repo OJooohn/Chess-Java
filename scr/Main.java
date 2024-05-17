@@ -105,13 +105,12 @@ public class Main {
           if (p.getPosX() == j && p.getPosY() == i) {
             if (j == linha && i == coluna) {
               System.out.print(PURPLE_BACKGROUND + "[ " + p.getIcone() + " ]" + RESET);
-              encontrado = true;
             } else {
               System.out.print("[ " + p.getIcone() + " ]" + RESET);
-              encontrado = true;
             }
+              encontrado = true;
 
-            break;
+              break;
           }
 
         }
